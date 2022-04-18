@@ -115,7 +115,7 @@ CREATE TABLE [dbo].[Hospital](
 )
 GO
 
-CREATE TABLE [dbo].[Receiver]
+CREATE TABLE [dbo].[Receiver](
 [receiver_id]  INT NOT NULL PRIMARY KEY
 )
 GO
@@ -217,7 +217,7 @@ CREATE TABLE [dbo].[Record_details](
 [Blood_stored_date] Date,
 [NoOfBloodGroupBottle] int,
 [Expiry_date_Bloppd] date
-
+)
 GO
 
 
