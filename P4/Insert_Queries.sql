@@ -1295,21 +1295,21 @@ INSERT INTO Record_details VALUES (112,58,89,88,45,100,'11/04/2021',5,'01/03/202
 INSERT INTO Record_details VALUES (117,67,56,117,62,40,'06/10/2016',5,'08/09/2016')
 
 
-SELECT p.person_fname,p.person_lname,p.person_bloodGroup from Person p right join Donor d on d.donor_id = p.person_id 
-SELECT p.person_fname,p.person_lname,p.person_bloodGroup from Person p right join Receiver d on d.receiver_id = p.person_id 
-SELECT p.person_fname,p.person_lname,p.person_bloodGroup,p.person_state,d.blood_bank_id,b.blood_bank_name from Person p right join Collector d on d.collector_id = p.person_id JOIN BloodBank b ON d.blood_bank_id = b.blood_bank_id
+-- SELECT p.person_fname,p.person_lname,p.person_bloodGroup from Person p right join Donor d on d.donor_id = p.person_id 
+-- SELECT p.person_fname,p.person_lname,p.person_bloodGroup from Person p right join Receiver d on d.receiver_id = p.person_id 
+-- SELECT p.person_fname,p.person_lname,p.person_bloodGroup,p.person_state,d.blood_bank_id,b.blood_bank_name from Person p right join Collector d on d.collector_id = p.person_id JOIN BloodBank b ON d.blood_bank_id = b.blood_bank_id
 
 
---- Checking whether donor and receiver have the same blood type
-WITH cte1 as (SELECT DISTINCT p.person_bloodGroup as bg_d,r.donor_id,r.blood_id from Person p JOIN Record_details r on p.person_id = r.donor_id),
-cte2 as (SELECT DISTINCT p.person_bloodGroup as bg_r,r.receiver_id,r.blood_id from Person p JOIN Record_details r on p.person_id = r.receiver_id)
-SELECT ct1.bg_d, ct2.bg_r, ct1.blood_id from cte1 ct1 join cte2 ct2 on ct1.blood_id = ct2.blood_id;
+-- --- Checking whether donor and receiver have the same blood type
+-- WITH cte1 as (SELECT DISTINCT p.person_bloodGroup as bg_d,r.donor_id,r.blood_id from Person p JOIN Record_details r on p.person_id = r.donor_id),
+-- cte2 as (SELECT DISTINCT p.person_bloodGroup as bg_r,r.receiver_id,r.blood_id from Person p JOIN Record_details r on p.person_id = r.receiver_id)
+-- SELECT ct1.bg_d, ct2.bg_r, ct1.blood_id from cte1 ct1 join cte2 ct2 on ct1.blood_id = ct2.blood_id;
 
---- How many times did a receiver receive blood
-select receiver_id, count(*) as count from Record_details group by receiver_id;
+-- --- How many times did a receiver receive blood
+-- select receiver_id, count(*) as count from Record_details group by receiver_id;
 
---- How many times did a donor donate blood
-select donor_id, count(*) as count from Record_details group by donor_id;
+-- --- How many times did a donor donate blood
+-- select donor_id, count(*) as count from Record_details group by donor_id;
 
---- Organizations utilized
-select distinct o.* from Organization o join Record_details r on o.org_id = r.org_id;
+-- --- Organizations utilized
+-- select distinct o.* from Organization o join Record_details r on o.org_id = r.org_id;
