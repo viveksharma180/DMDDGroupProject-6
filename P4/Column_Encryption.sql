@@ -26,17 +26,25 @@ SELECT name KeyName,
 FROM sys.symmetric_keys;
 
 ---Run before
-ALTER TABLE Blood_Bank.dbo.Person
-ADD person_teleNo_encrypt varbinary(MAX)
+ALTER TABLE Blood_Bank.dbo.System_Admin
+ADD username_encrypt varbinary(MAX)
+
+ALTER TABLE Blood_Bank.dbo.System_Admin
+ADD password_encrypt varbinary(MAX)
 
 --Run before
 
 OPEN SYMMETRIC KEY SymKey_test
         DECRYPTION BY CERTIFICATE Certificate_test;
 
-UPDATE Blood_Bank.dbo.Person
-        SET person_teleNo_encrypt = EncryptByKey (Key_GUID('SymKey_test'), person_teleNo)
-        FROM Blood_Bank.dbo.Person;
+UPDATE Blood_Bank.dbo.System_Admin
+        SET username_encrypt = EncryptByKey (Key_GUID('SymKey_test'), username)
+        FROM Blood_Bank.dbo.System_Admin;
+        GO
+
+UPDATE Blood_Bank.dbo.System_Admin
+        SET password_encrypt = EncryptByKey (Key_GUID('SymKey_test'), password)
+        FROM Blood_Bank.dbo.System_Admin;
         GO
 
 CLOSE SYMMETRIC KEY SymKey_test;
@@ -44,7 +52,7 @@ CLOSE SYMMETRIC KEY SymKey_test;
 
 --Run before
 
-SELECT * FROM Person;
+SELECT * FROM System_Admin;
 
 
 ---Decryption Part
@@ -52,6 +60,13 @@ SELECT * FROM Person;
 OPEN SYMMETRIC KEY SymKey_test
         DECRYPTION BY CERTIFICATE Certificate_test;
 
-SELECT person_teleNo_encrypt AS 'Encrypted data',
-            CONVERT(varchar, DecryptByKey(person_teleNo_encrypt)) AS 'Decrypted tele number'
-            FROM Person;
+SELECT username_encrypt AS 'Encrypted data',
+            CONVERT(varchar, DecryptByKey(username_encrypt)) AS 'Decrypted username'
+            FROM System_Admin;
+
+SELECT password_encrypt AS 'Encrypted data',
+            CONVERT(varchar, DecryptByKey(password_encrypt)) AS 'Decrypted password'
+            FROM System_Admin;
+
+CLOSE SYMMETRIC KEY SymKey_test;
+            GO
