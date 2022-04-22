@@ -1,0 +1,7 @@
+CREATE VIEW [REQUESTED_BLOOD_GROUP] AS
+SELECT B.Receiver_ID, B.Blood_Group,SUM(B.Units_Provided) AS Total_Units FROM BLOOD B
+WHERE B.Receiver_ID is not NULL
+GROUP BY B.Receiver_ID, B.Blood_Group
+
+SELECT * FROM REQUESTED_BLOOD_GROUP
+ORDER BY Total_Units DESC

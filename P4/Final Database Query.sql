@@ -48,7 +48,8 @@ CREATE TABLE [dbo].[Person](
 [person_zipcode] [varchar](25) NOT NULL,
 [person_country] [varchar](25) NOT NULL,
 [person_teleNo] [char](10) Not Null,
-[person_bloodGroup] [varchar](3) Not NULL
+[person_bloodGroup] [varchar](3) Not NULL,
+[person_DOB] DATE Not Null
 )
 GO
 
