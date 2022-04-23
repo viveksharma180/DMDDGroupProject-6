@@ -1,9 +1,0 @@
-CREATE VIEW [DONOR_LIST] AS
-SELECT M.person_fname,M.person_lname, COUNT(M.DONOR_ID) AS Donation_Count
-FROM
-(SELECT P.person_fname,P.person_lname, RP.DONOR_ID FROM PERSON P
-INNER JOIN RECORD_DETAILS RP
-ON P.PERSON_ID = RP.DONOR_ID) M
-GROUP BY M.person_fname,M.person_lname
-
-SELECT * FROM DONOR_LIST
