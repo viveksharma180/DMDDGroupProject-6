@@ -3,7 +3,7 @@ BEGIN TRANSACTION trans
     DECLARE @errors BIT = 0;
 
     BEGIN TRY
-        INSERT INTO Receiver VALUES (2);
+        INSERT INTO Receiver VALUES (1);
         INSERT INTO Receiver VALUES (9);
     END TRY
 
