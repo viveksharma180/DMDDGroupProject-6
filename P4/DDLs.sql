@@ -9,6 +9,37 @@ go
 USE [Blood_Bank]
 GO
 
+------------------------------------------------------------------------------------------------------------------------
+------- Computed Column based on UDF - 2
+------------------------------------------------------------------------------------------------------------------------
+--1 -Returns Age of Person
+CREATE FUNCTION dbo.fn_Age (@id int)
+  RETURNS INT
+  AS
+    BEGIN 
+       RETURN (SELECT DATEDIFF(YEAR, Person.person_DOB, GETDATE()) as AGE from Person where person_id = @id)
+    END
+GO
+
+--2 -Returns full name of Person
+CREATE FUNCTION dbo.fn_FullName (@id int)
+     RETURNS VARCHAR(300)
+     AS
+        BEGIN
+            RETURN (Select person_fname+SPACE(1)+person_lname from Person WHERE person_id = @id)
+        END
+GO
+
+-- SELECT
+--     person_id as ID,
+--     dbo.fn_FullName(person_id) as [Name],
+--     dbo.fn_Age(person_id) as Age 
+-- FROM Person
+
+------------------------------------------------------------------------------------------------------------------------
+------- Create tables
+------------------------------------------------------------------------------------------------------------------------
+
 CREATE TABLE [dbo].[BloodBank](
 [blood_bank_id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 [blood_bank_name] [varchar](100) NOT NULL,
@@ -50,7 +81,9 @@ CREATE TABLE [dbo].[Person](
 [person_country] [varchar](25) NOT NULL,
 [person_teleNo] [char](10) Not Null,
 [person_bloodGroup] [varchar](3) Not NULL,
-[person_DOB] DATE Not Null
+[person_DOB] DATE Not Null,
+[person_age] AS dbo.fn_Age([person_id]),
+[person_fullName] AS dbo.fn_FullName([person_id]) 
 )
 GO
 
@@ -483,30 +516,3 @@ END;
 GO
 
 -- SELECT dbo.role(111);
-
-------------------------------------------------------------------------------------------------------------------------
-------- Computed Column based on UDF - 2
-------------------------------------------------------------------------------------------------------------------------
---1 -Returns Age of Person
-CREATE FUNCTION fn_Age (@id int)
-  RETURNS INT
-  AS
-    BEGIN 
-       RETURN (SELECT DATEDIFF(YEAR, Person.person_DOB, GETDATE()) as AGE from Person where person_id = @id)
-    END
-GO
-
---2 -Returns full name of Person
-CREATE FUNCTION fn_FullName (@id int)
-     RETURNS VARCHAR(300)
-     AS
-        BEGIN
-            RETURN (Select person_fname+SPACE(1)+person_lname from Person WHERE person_id = @id)
-        END
-GO
-
--- SELECT
---     person_id as ID,
---     dbo.fn_FullName(person_id) as [Name],
---     dbo.fn_Age(person_id) as Age 
--- FROM Person
